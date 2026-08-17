@@ -121,6 +121,9 @@ def _send_via_resend(data: dict, ip: str) -> tuple[bool, str | None]:
         headers={
             "Authorization": f"Bearer {RESEND_API_KEY}",
             "Content-Type": "application/json",
+            # Cloudflare fronts the Resend API and rejects urllib's default
+            # "Python-urllib/3.x" agent with a 403 (CF error 1010). Send a real one.
+            "User-Agent": "yash-portfolio-contact/1.0",
         },
         method="POST",
     )
