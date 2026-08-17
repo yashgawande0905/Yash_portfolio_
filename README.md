@@ -20,15 +20,15 @@ field, 3D-tilt hover cards, a pinch/zoom lightbox, and scroll-triggered reveals.
 
 ---
 
-## 1. Get the contact form working (do this first)
+## 1. Contact form — verified working
 
 The form posts to `/api/contact`, which sends the message to your inbox through
-[Resend](https://resend.com). Free tier is 3,000 emails/month.
+[Resend](https://resend.com). Free tier is 3,000 emails/month. The key is already in
+`backend/.env` for local development, and delivery has been confirmed end-to-end against
+the live Resend API — from both the Vercel function and the Flask backend.
 
-1. Sign up at **[resend.com](https://resend.com)** with `yashgawande0905@gmail.com`.
-2. Go to **API Keys → Create API Key**, name it `portfolio`, copy the `re_...` value.
-   You only see it once.
-3. Keep it for step 2 below (or put it in `backend/.env` for local testing).
+You still need to paste the same key into Vercel (step 2) so it works in production.
+Find it at **[resend.com/api-keys](https://resend.com/api-keys)**, or in `backend/.env`.
 
 > **Why the default sender works with zero setup:** Resend's shared `onboarding@resend.dev`
 > address needs no domain or DNS records, but it can *only* deliver to the email address
@@ -50,34 +50,39 @@ service down after 15 minutes idle, so the first visitor of the day waits ~50 se
 a cold start, and the contact form would appear broken. Both are free; Vercel is faster
 for this shape of project.
 
-### Push to GitHub
+### GitHub — already done
+
+The code lives at **[github.com/yashgawande0905/portfolio](https://github.com/yashgawande0905/portfolio)**
+(private). `.gitignore` excludes `.env`, `node_modules/`, `venv/` and `dist/`, so no
+secrets are in the history.
+
+To make it public later (optional — Vercel deploys private repos fine):
 
 ```bash
-cd /path/to/Yash_Portfolio_R
-git init
-git add .
-git commit -m "Production-ready portfolio"
-git branch -M main
-git remote add origin https://github.com/yashgawande0905/portfolio.git
-git push -u origin main
+gh repo edit yashgawande0905/portfolio --visibility public --accept-visibility-change-consequences
 ```
 
-`.gitignore` already excludes `.env`, `node_modules/`, `venv/` and `dist/`, so no secrets
-get committed. Create the empty `portfolio` repo on GitHub first.
+Subsequent changes deploy automatically on push:
+
+```bash
+git add . && git commit -m "your message" && git push
+```
 
 ### Import into Vercel
 
-1. Go to **[vercel.com/new](https://vercel.com/new)**, sign in with GitHub, pick the repo.
-2. Leave **Root Directory** as `./` — `vercel.json` already points the build at
-   `frontend/` and the output at `frontend/dist`.
-3. Before clicking Deploy, open **Environment Variables** and add:
+1. Go to **[vercel.com/new](https://vercel.com/new)** and sign in **with GitHub**.
+2. Find `portfolio` in the list and click **Import**. If it isn't listed, click
+   *Adjust GitHub App Permissions* and grant access to the repo (it's private).
+3. Leave **Root Directory** as `./` — `vercel.json` already points the build at
+   `frontend/` and the output at `frontend/dist`. Don't change the build settings.
+4. Expand **Environment Variables** and add both of these *before* deploying:
 
    | Name | Value |
    |---|---|
-   | `RESEND_API_KEY` | your `re_...` key |
+   | `RESEND_API_KEY` | `re_...` (the key from your Resend dashboard) |
    | `CONTACT_TO_EMAIL` | `yashgawande0905@gmail.com` |
 
-4. Click **Deploy**. First build takes about a minute.
+5. Click **Deploy**. First build takes about a minute.
 
 ### After the first deploy
 
