@@ -7,15 +7,15 @@ an ember/arcane/mystic palette, glassmorphism cards, a custom cursor, an ambient
 field, 3D-tilt hover cards, a pinch/zoom lightbox, and scroll-triggered reveals.
 
 ```
-├── api/contact.js      Vercel serverless function — validates + emails via Resend
-├── frontend/           Vite + React + TypeScript + Tailwind + Framer Motion (SPA)
+├── frontend/           Vite + React + TS + Tailwind (SPA) — the Vercel project root
+│   ├── api/contact.js  Serverless function — validates + emails via Resend
+│   ├── vercel.json     Routing, security headers, cache policy
 │   ├── src/
 │   │   ├── components/ Navbar, Hero, About, Skills, Education, Experience,
 │   │   │               Projects, Contact, Footer + VFX components
 │   │   └── data/portfolioData.ts   ← all your content lives here
 │   └── public/assets/  Images, favicon, robots.txt, sitemap.xml
 ├── backend/app.py      Flask dev server — same contact logic, for running locally
-└── vercel.json         Build, routing, caching and security-header config
 ```
 
 ---
@@ -27,8 +27,8 @@ The form posts to `/api/contact`, which sends the message to your inbox through
 `backend/.env` for local development, and delivery has been confirmed end-to-end against
 the live Resend API — from both the Vercel function and the Flask backend.
 
-You still need to paste the same key into Vercel (step 2) so it works in production.
-Find it at **[resend.com/api-keys](https://resend.com/api-keys)**, or in `backend/.env`.
+The same key is already set as `RESEND_API_KEY` in Vercel (Production + Preview), and the
+live form at https://yashgawande.vercel.app has been tested with real submissions.
 
 > **Why the default sender works with zero setup:** Resend's shared `onboarding@resend.dev`
 > address needs no domain or DNS records, but it can *only* deliver to the email address
@@ -62,43 +62,36 @@ To make it public later (optional — Vercel deploys private repos fine):
 gh repo edit yashgawande0905/portfolio --visibility public --accept-visibility-change-consequences
 ```
 
-Subsequent changes deploy automatically on push:
+### Vercel — already deployed
+
+**Live: https://yashgawande.vercel.app**
+
+The project (`yash-portfolio`) is created, the GitHub repo is connected, and both
+environment variables are set for Production and Preview. Root Directory is `frontend`,
+framework preset Vite.
+
+Pushing to `main` now redeploys automatically:
 
 ```bash
 git add . && git commit -m "your message" && git push
 ```
 
-### Import into Vercel
+> **Note on `vercel deploy` from the CLI:** direct CLI uploads currently come back
+> `BLOCKED` with `seatBlock: TEAM_ACCESS_REQUIRED` on this account. Git-triggered
+> deploys work fine, so just push to `main`. If you ever need a manual redeploy, use the
+> **Redeploy** button on the Vercel dashboard rather than the CLI.
 
-1. Go to **[vercel.com/new](https://vercel.com/new)** and sign in **with GitHub**.
-2. Find `portfolio` in the list and click **Import**. If it isn't listed, click
-   *Adjust GitHub App Permissions* and grant access to the repo (it's private).
-3. Leave **Root Directory** as `./` — `vercel.json` already points the build at
-   `frontend/` and the output at `frontend/dist`. Don't change the build settings.
-4. Expand **Environment Variables** and add both of these *before* deploying:
+### Domain
 
-   | Name | Value |
-   |---|---|
-   | `RESEND_API_KEY` | `re_...` (the key from your Resend dashboard) |
-   | `CONTACT_TO_EMAIL` | `yashgawande0905@gmail.com` |
+`yashgawande.vercel.app` is claimed and live, and it matches the canonical URL already
+baked into the SEO tags, sitemap and robots.txt — nothing to update.
 
-5. Click **Deploy**. First build takes about a minute.
+If you later move to a custom domain, change it in three places and push:
+`frontend/index.html` (og:url, og:image, twitter:image, canonical),
+`frontend/public/sitemap.xml`, and `frontend/public/robots.txt`.
 
-### After the first deploy
-
-You'll get a URL like `https://portfolio-xyz.vercel.app`. To make the SEO tags and
-sitemap match it, update the URL in these three places and push again:
-
-- `frontend/index.html` — `og:url`, `og:image`, `twitter:image`, `canonical`
-- `frontend/public/sitemap.xml` — the `<loc>` value
-- `frontend/public/robots.txt` — the `Sitemap:` line
-
-Then **send yourself a test message through the live form** to confirm delivery.
-
-### Custom domain (optional)
-
-In Vercel: **Settings → Domains → Add**. Point your registrar's nameservers or add the
-CNAME Vercel shows you. HTTPS is issued automatically.
+To add a domain you own: Vercel → **Settings → Domains → Add**, then point your
+registrar at the records Vercel shows. HTTPS is issued automatically.
 
 ---
 
@@ -158,7 +151,7 @@ and busts automatically on each deploy.
 
 ## What's in place for production
 
-**Contact API** (`api/contact.js`, mirrored in `backend/app.py`)
+**Contact API** (`frontend/api/contact.js`, mirrored in `backend/app.py`)
 
 - Server-side validation of every field, with length bounds
 - All user input HTML-escaped before it reaches the email body
@@ -179,7 +172,7 @@ and busts automatically on each deploy.
   1200×630 share image, JSON-LD `Person` structured data, `robots.txt`, `sitemap.xml`
 - Vendor code split into cached chunks; hero image downscaled, with the full-resolution
   original reserved for the pinch-zoom lightbox
-- Security headers incl. a Content-Security-Policy (`vercel.json`)
+- Security headers incl. a Content-Security-Policy (`frontend/vercel.json`)
 - `prefers-reduced-motion` respected throughout; custom cursor and heavy intro
   animation disabled on touch devices
 
@@ -204,7 +197,7 @@ Vercel. Add it, then **redeploy** (env changes need a new deployment to take eff
 cause is `CONTACT_TO_EMAIL` differing from the address that owns the Resend account,
 which the shared `onboarding@resend.dev` sender is not allowed to deliver to.
 
-**Icons or fonts missing after deploy** — the CSP in `vercel.json` lists the hosts the
+**Icons or fonts missing after deploy** — the CSP in `frontend/vercel.json` lists the hosts the
 page may load from. If you add an image from a new domain, add that host to `img-src`.
 Enabling Vercel Analytics also requires adding `https://va.vercel-scripts.com` to
 `script-src`.
