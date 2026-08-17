@@ -52,14 +52,14 @@ for this shape of project.
 
 ### GitHub — already done
 
-The code lives at **[github.com/yashgawande0905/portfolio](https://github.com/yashgawande0905/portfolio)**
+The code lives at **[github.com/yashgawande0905/Yash_portfolio_](https://github.com/yashgawande0905/Yash_portfolio_)**
 (private). `.gitignore` excludes `.env`, `node_modules/`, `venv/` and `dist/`, so no
 secrets are in the history.
 
 To make it public later (optional — Vercel deploys private repos fine):
 
 ```bash
-gh repo edit yashgawande0905/portfolio --visibility public --accept-visibility-change-consequences
+gh repo edit yashgawande0905/Yash_portfolio_ --visibility public --accept-visibility-change-consequences
 ```
 
 ### Vercel — already deployed
@@ -76,10 +76,11 @@ Pushing to `main` now redeploys automatically:
 git add . && git commit -m "your message" && git push
 ```
 
-> **Note on `vercel deploy` from the CLI:** direct CLI uploads currently come back
-> `BLOCKED` with `seatBlock: TEAM_ACCESS_REQUIRED` on this account. Git-triggered
-> deploys work fine, so just push to `main`. If you ever need a manual redeploy, use the
-> **Redeploy** button on the Vercel dashboard rather than the CLI.
+Every push to `main` builds and goes live automatically — verified working.
+
+> If a deployment ever comes back `BLOCKED` with `seatBlock: TEAM_ACCESS_REQUIRED`, it
+> means Vercel wants the account re-verified. Open the dashboard and clear the prompt,
+> then push again.
 
 ### Domain
 
