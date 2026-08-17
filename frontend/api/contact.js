@@ -2,8 +2,12 @@
  * POST /api/contact — portfolio contact form.
  *
  * Runs as a Vercel Node.js Function. Deliberately dependency-free: it uses the
- * global `fetch` (Node 18+) to talk to the Resend REST API, so there is no
- * package.json for this directory and nothing to keep patched.
+ * global `fetch` (Node 18+) to talk to the Resend REST API, so there is nothing
+ * here to keep patched.
+ *
+ * Lives under frontend/ because the Vercel project's root directory is
+ * frontend/ — that keeps Vercel from auto-detecting backend/ as a second
+ * "service", which makes build settings ambiguous and blocks deploys.
  *
  * Required environment variables (set them in the Vercel dashboard):
  *   RESEND_API_KEY     re_...  from https://resend.com/api-keys
@@ -104,7 +108,8 @@ function buildEmail({ name, email, subject, message }, meta) {
   return { html, text, safeSubject }
 }
 
-module.exports = async (req, res) => {
+// ESM, because frontend/package.json declares "type": "module".
+export default async function handler(req, res) {
   const allowed = (process.env.ALLOWED_ORIGINS || '')
     .split(',')
     .map((o) => o.trim())

@@ -71,7 +71,7 @@ export const skillCategories: SkillCategory[] = [
     title: 'Artificial Intelligence & Machine Learning',
     glyph: '\u25C8',
     skills: [
-      { name: 'TensorFlow', icon: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Tensorflow_logo.svg' },
+      { name: 'TensorFlow', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg' },
       { name: 'PyTorch', icon: 'https://upload.wikimedia.org/wikipedia/commons/9/96/Pytorch_logo.png' },
       { name: 'OpenCV', icon: 'https://opencv.org/wp-content/uploads/2020/07/OpenCV_logo_black.png' },
       { name: 'Pandas', icon: 'https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg' },

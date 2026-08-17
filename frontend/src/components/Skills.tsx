@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import { skillCategories } from '../data/portfolioData'
 import SectionDivider from './SectionDivider'
 
@@ -6,6 +7,33 @@ function sigil(name: string) {
   const words = name.replace(/[^a-zA-Z0-9 ]/g, '').split(' ').filter(Boolean)
   if (words.length > 1) return words.map((w) => w[0]).join('').slice(0, 3).toUpperCase()
   return name.slice(0, 3).toUpperCase()
+}
+
+function Sigil({ name }: { name: string }) {
+  return (
+    <span className="font-mono text-[10px] font-semibold tracking-wider text-arcane-soft">
+      {sigil(name)}
+    </span>
+  )
+}
+
+/**
+ * Several logos are hotlinked from third-party CDNs, and those URLs do rot —
+ * fall back to the lettered sigil instead of showing a broken-image box.
+ */
+function SkillIcon({ name, icon }: { name: string; icon?: string }) {
+  const [failed, setFailed] = useState(false)
+  if (!icon || failed) return <Sigil name={name} />
+  return (
+    <img
+      src={icon}
+      alt={name}
+      onError={() => setFailed(true)}
+      className="h-full w-full object-contain"
+      loading="lazy"
+      decoding="async"
+    />
+  )
 }
 
 export default function Skills() {
@@ -47,13 +75,7 @@ export default function Skills() {
                     transition={{ type: 'spring', stiffness: 300, damping: 12 }}
                     className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 p-2"
                   >
-                    {skill.icon ? (
-                      <img src={skill.icon} alt={skill.name} className="h-full w-full object-contain" loading="lazy" />
-                    ) : (
-                      <span className="font-mono text-[10px] font-semibold tracking-wider text-arcane-soft">
-                        {sigil(skill.name)}
-                      </span>
-                    )}
+                    <SkillIcon name={skill.name} icon={skill.icon} />
                   </motion.div>
                   <span className="text-center font-mono text-xs text-white/75 group-hover:text-white">
                     {skill.name}
