@@ -1,0 +1,16 @@
+{
+  "name": "yash-gawande-portfolio",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Yash Gawande's portfolio — React/TypeScript frontend with a serverless contact API.",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview",
+    "install:all": "npm --prefix frontend install",
+    "backend": "python backend/app.py"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

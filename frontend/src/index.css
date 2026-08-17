@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #07070d;
+  color: #f2eee6;
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+@media (max-width: 768px), (hover: none) {
+  body {
+    cursor: auto;
+  }
+}
+
+::selection {
+  background: rgba(255, 106, 61, 0.35);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0b16;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff6a3d, #22e0ff);
+  border-radius: 8px;
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/[0.04] backdrop-blur-md border border-white/10;
+  }
+
+  .glass-panel {
+    @apply glass rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)];
+  }
+
+  .rune-text {
+    @apply font-display tracking-wide;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.35em] text-arcane-soft/80;
+  }
+
+  .btn-glow {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full border border-ember/40
+      bg-gradient-to-r from-ember/20 to-mystic/20 px-7 py-3 font-mono text-sm uppercase tracking-widest
+      text-white transition-all duration-300 hover:border-ember hover:shadow-glow;
+  }
+
+  .section-heading {
+    @apply rune-text text-4xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text
+      bg-gradient-to-r from-gilt via-ember-soft to-arcane-soft;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 font-body text-sm text-white
+      placeholder:text-white/35 outline-none transition-colors focus:border-arcane/60 focus:shadow-glow-arcane;
+  }
+
+  .card-edge {
+    background:
+      linear-gradient(#0000, #0000) padding-box,
+      linear-gradient(135deg, rgba(255,106,61,0.5), rgba(34,224,255,0.35), rgba(168,107,255,0.5)) border-box;
+    border: 1px solid transparent;
+  }
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}

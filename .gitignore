@@ -1,0 +1,35 @@
+# Secrets — never commit these
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Dependencies
+node_modules/
+backend/venv/
+venv/
+.venv/
+
+# Build output
+frontend/dist/
+dist/
+*.tsbuildinfo
+
+# Vercel
+.vercel/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*

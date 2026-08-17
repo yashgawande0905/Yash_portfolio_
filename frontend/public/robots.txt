@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# The contact endpoint has nothing to index.
+Disallow: /api/
+
+Sitemap: https://yashgawande.vercel.app/sitemap.xml

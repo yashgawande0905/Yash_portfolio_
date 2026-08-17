@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    // Composite projects must emit, so send the output somewhere disposable.
+    // Emitting next to the source would create a vite.config.js, and Vite
+    // resolves vite.config.js BEFORE vite.config.ts — edits to the .ts would
+    // then be silently ignored at build time.
+    "outDir": "./node_modules/.tmp/tsc-node",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
+  },
+  "include": ["vite.config.ts"]
+}
